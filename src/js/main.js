@@ -21,7 +21,7 @@ var map = svg.append("g")
 
 d3.queue()
     .defer(d3.json, "src/data/50m.json")
-    .defer(d3.json, "https://stevenpj777.github.io/population.json/population.json")
+    .defer(d3.json, "src/data/population.json")
     .await(function (error, world, data) {
         if (error) {
             console.error('Oh dear, something went wrong: ' + error);
