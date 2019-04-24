@@ -50,11 +50,14 @@ function drawMap(world, data) {
 
     data.forEach(function (d) {
         populationById[d.country] = {
-            total: +d.total,
+            population: +d.population,
             females: +d.females,
             males: +d.males,
             year: +d.year,
-            language: d.language
+            // language: d.language
+            languages: +d.languages,
+            speakers: +d.speakers
+
         }
     });
     features.forEach(function (d) {
@@ -73,7 +76,7 @@ function drawMap(world, data) {
         })
         .attr("d", path)
         .style("fill", function (d) {
-            return d.details && d.details.total ? color(d.details.total) : undefined;
+            return d.details && d.details.population ? color(d.details.population) : undefined;
         })
         .on('mouseover', function (d) {
             d3.select(this)
@@ -84,11 +87,14 @@ function drawMap(world, data) {
             d3.select(".country")
                 .text(d.properties.name);
 
-            d3.select(".females")
-                .text(d.details && d.details.year && "Femaoo " + d.details.language || "¯\\_(ツ)_/¯");
+            d3.select(".total")
+                .text(d.details && d.details.population && "Population: " + d.details.population || "¯\\_(ツ)_/¯");
 
-            d3.select(".males")
-                .text(d.details && d.details.males && "Male " + d.details.males || "¯\\_(ツ)_/¯");
+            d3.select(".languages")
+                .text(d.details && d.details.languages && "# Langs: " + d.details.languages || "¯\\_(ツ)_/¯");
+
+            d3.select(".speakers")
+                .text(d.details && d.details.speakers && "Speakers: " + d.details.speakers || "¯\\_(ツ)_/¯");
 
             d3.select('.details')
                 .style('visibility', "visible")
