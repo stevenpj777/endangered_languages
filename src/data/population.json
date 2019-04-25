@@ -11,7 +11,9 @@
     },
     {
         "country": "Algeria",
-        "population": "41318142"
+        "population": "41318142",
+        "languages": 12,
+        "speakers": "487000"
     },
     {
         "country": "American Samoa",
@@ -39,7 +41,9 @@
     },
     {
         "country": "Argentina",
-        "population": "44271041"
+        "population": "44271041",
+        "languages": 18,
+        "speakers": "262005"
     },
     {
         "country": "Armenia",
@@ -121,7 +125,9 @@
     },
     {
         "country": "Brazil",
-        "population": "209288278"
+        "population": "209288278",
+        "languages": 190,
+        "speakers": "289893"
     },
     {
         "country": "British Indian Ocean Territory",
@@ -179,7 +185,9 @@
     },
     {
         "country": "China",
-        "population": "1409517397"
+        "population": "1409517397",
+        "languages": 148,
+        "speakers": "3856618"
     },
     {
         "country": "Christmas Island",
@@ -339,7 +347,9 @@
     },
     {
         "country": "Greenland",
-        "population": "56480"
+        "population": "56480",
+        "languages": 3,
+        "speakers": "54000"
     },
     {
         "country": "Grenada",
@@ -399,7 +409,9 @@
     },
     {
         "country": "India",
-        "population": "1339180127"
+        "population": "1339180127",
+        "languages": 199,
+        "speakers": "28356785"
     },
     {
         "country": "Indonesia",
@@ -415,7 +427,9 @@
     },
     {
         "country": "Ireland",
-        "population": "4761657"
+        "population": "4761657",
+        "languages": 2,
+        "speakers": "44000"
     },
     {
         "country": "Israel",
@@ -435,7 +449,9 @@
     },
     {
         "country": "Japan",
-        "population": "127484450"
+        "population": "127484450",
+        "languages": 8,
+        "speakers": "8015"
     },
     {
         "country": "Jordan",
@@ -443,7 +459,9 @@
     },
     {
         "country": "Kazakhstan",
-        "population": "18204499"
+        "population": "18204499",
+        "languages": 1,
+        "speakers": "41000"
     },
     {
         "country": "Kenya",
@@ -551,7 +569,9 @@
     },
     {
         "country": "Mexico",
-        "population": "129163276"
+        "population": "129163276",
+        "languages": 143,
+        "speakers": "2136809"
     },
     {
         "country": "Micronesia, Federated States of",
@@ -623,7 +643,9 @@
     },
     {
         "country": "Nigeria",
-        "population": "190886311"
+        "population": "190886311",
+        "languages": 29,
+        "speakers": "569122"
     },
     {
         "country": "Niue",
@@ -647,7 +669,10 @@
     },
     {
         "country": "Norway",
-        "population": "5305383"
+        "population": "5305383",
+        "languages": 6,
+        "speakers": "32820"
+
     },
     {
         "country": "Oman",
@@ -714,8 +739,10 @@
         "population": "19679306"
     },
     {
-        "country": "Russian Federation",
-        "population": "143989754"
+        "country": "Russia",
+        "population": "143989754",
+        "languages": 148,
+        "speakers": "25335610"
     },
     {
         "country": "Rwanda",
@@ -795,7 +822,9 @@
     },
     {
         "country": "South Africa",
-        "population": "56717156"
+        "population": "56717156",
+        "languages": 10,
+        "speakers": "101"
     },
     {
         "country": "South Georgia and the South Sandwich Islands",
@@ -835,7 +864,9 @@
     },
     {
         "country": "Sweden",
-        "population": "9910701"
+        "population": "9910701",
+        "languages": 4,
+        "speakers": "15020"
     },
     {
         "country": "Switzerland",
@@ -911,7 +942,9 @@
     },
     {
         "country": "United Kingdom",
-        "population": "66181585"
+        "population": "66181585",
+        "languages": 9,
+        "speakers": "2312753"
     },
     {
         "country": "United States",
