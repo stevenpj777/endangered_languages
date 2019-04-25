@@ -42,7 +42,7 @@ function drawMap(world, data) {
 
     //colors for population metrics
     var color = d3.scaleThreshold()
-        .domain([10000, 100000, 500000, 1000000, 5000000, 10000000, 50000000, 100000000, 500000000, 1500000000])
+        .domain([10000, 100000, 500000, 1000000, 5000000, 10000000, 50000000, 100000000, 500000000, 1500000,000])
         .range(["#f7fcfd", "#e0ecf4", "#bfd3e6", "#9ebcda", "#8c96c6", "#8c6bb1", "#88419d", "#810f7c", "#4d004b"]);
 
     var features = topojson.feature(world, world.objects.countries).features;
@@ -50,13 +50,14 @@ function drawMap(world, data) {
 
     data.forEach(function (d) {
         populationById[d.country] = {
-            population: +d.population,
+            population: d.population,
             females: +d.females,
             males: +d.males,
             year: +d.year,
             // language: d.language
             languages: +d.languages,
-            speakers: +d.speakers
+            speakers: d.speakers,
+            total: d.total
 
         }
     });
@@ -77,26 +78,29 @@ function drawMap(world, data) {
         .attr("d", path)
         .style("fill", function (d) {
             return d.details && d.details.population ? color(d.details.population) : undefined;
+
         })
         .on('mouseover', function (d) {
             d3.select(this)
-                .style("stroke", "blue")
-                .style("stroke-width", 1)
+                .style("stroke", "red")
+                .style("stroke-width", 2)
                 .style("cursor", "pointer");
 
             d3.select(".country")
                 .text(d.properties.name);
 
             d3.select(".total")
-                .text(d.details && d.details.population && "Population: " + d.details.population || "¯\\_(ツ)_/¯");
+                .text(d.details && d.details.total && "Population: " + d.details.total || "¯\\_(ツ)_/¯");
 
             d3.select(".languages")
                 .text(d.details && d.details.languages && "# Langs: " + d.details.languages || "¯\\_(ツ)_/¯");
 
             d3.select(".speakers")
                 .text(d.details && d.details.speakers && "Speakers: " + d.details.speakers || "¯\\_(ツ)_/¯");
+                // .text("Speakers: " + d.details.total || "¯\\_(ツ)_/¯");
 
             d3.select('.details')
+
                 .style('visibility', "visible")
         })
         .on('mouseout', function (d) {
@@ -107,4 +111,5 @@ function drawMap(world, data) {
             d3.select('.details')
                 .style('visibility', "hidden");
         });
+
 }
