@@ -82,8 +82,9 @@ xhr1.onload = function () {
                 };
             },
             onEachFeature: function (feature, layer) {
+
                 layer.on({
-                    'mousemove': function (e) {
+                    'mouseover': function (e) {
                         //Handle mousemove event
                         e.target.setStyle({
                             weight: 2
@@ -99,13 +100,15 @@ xhr1.onload = function () {
                         document.getElementsByClassName("details")[0].style.visibility = 'visible';
                     },
                     'mouseout': function (e) {
-                        //Handle mouseout event
+                      document.getElementsByClassName("details")[0].style.visibility = 'hidden';
                         e.target.setStyle({
-                            weight: 1
+                          // document.getElementsByClassName("details")[0].style.visibility = 'visible';
+
+                            weight: .25
                         });
                     },
                     'click': function (e) {
-                        //Handle click event
+                      // document.getElementsByClassName("details")[0].style.visibility = 'hidden';
                     }
                 });
             }
