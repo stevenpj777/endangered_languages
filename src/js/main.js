@@ -1,115 +1,116 @@
-var width = Math.max(document.documentElement.clientWidth, window.innerWidth || 0),
-    height = Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
+var map = L.map('map', {
+    minZoom: 2,
+    maxZoom: 10,
+    zoomControl: false
+}).setView([0, 0], 3);
 
-var svg = d3.select("body")
-    .append("svg")
-    .style("cursor", "move");
+var populationById = {};
 
-svg.attr("viewBox", "50 10 " + width + " " + height)
-    .attr("preserveAspectRatio", "xMinYMin");
+/**
+ * Returns color based on population.
+ * @param d
+ * @returns {string}
+ */
+function getColor(d) {
+    return d > 100000000 ? '#4d004b' :
+        d > 50000000 ? '#8c6bb1' :
+            d > 50000000 ? '#8c96c6' :
+                d > 4000000 ? '#9ebcda' :
+                    d > 2000000 ? '#bfd3e6' :
+                        d > 1000 ? '#e0ecf4' :
+                            d > 10 ? '#F7FCFD' :
+                                'grey';
+}
 
-var zoom = d3.zoom()
-    .on("zoom", function () {
-        var transform = d3.zoomTransform(this);
-        map.attr("transform", transform);
-    });
+// var tileLayer = L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw', {
+var tileLayer = L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    noWrap: true,
+    maxZoom: 18,
+    attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, ' +
+    '<a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
+    'Imagery © <a href="http://mapbox.com">Mapbox</a>',
+    id: 'mapbox.streets'
+}).addTo(map);
 
-svg.call(zoom);
+var xhr = new XMLHttpRequest();
+xhr.open('GET', "src/data/population.json");
+xhr.setRequestHeader('Content-Type', 'application/json');
+xhr.onload = function () {
+    if (xhr.status === 200) {
+        var population = JSON.parse(xhr.responseText);
+        population.forEach(function (d) {
+            populationById[d.country] = {
+                // total: +d.total,
+                // females: +d.females,
+                // males: +d.males
 
-var map = svg.append("g")
-    .attr("class", "map");
+                population: d.population,
+                females: +d.females,
+                males: +d.males,
+                year: +d.year,
+                // language: d.language
+                languages: +d.languages,
+                speakers: d.speakers,
+                total: d.total
 
-d3.queue()
-    .defer(d3.json, "src/data/50m.json")
-    .defer(d3.json, "src/data/population.json")
-    .await(function (error, world, data) {
-        if (error) {
-            console.error('Oh dear, something went wrong: ' + error);
-        }
-        else {
-            drawMap(world, data);
-        }
-    });
-
-function drawMap(world, data) {
-    // geoMercator projection
-    var projection = d3.geoMercator() //d3.geoOrthographic()
-        .scale(130)
-        .translate([width / 2, height / 1.5]);
-
-    // geoPath projection
-    var path = d3.geoPath().projection(projection);
-
-    //colors for population metrics
-    var color = d3.scaleThreshold()
-        .domain([10000, 100000, 500000, 1000000, 5000000, 10000000, 50000000, 100000000, 500000000, 1500000,000])
-        .range(["#f7fcfd", "#e0ecf4", "#bfd3e6", "#9ebcda", "#8c96c6", "#8c6bb1", "#88419d", "#810f7c", "#4d004b"]);
-
-    var features = topojson.feature(world, world.objects.countries).features;
-    var populationById = {};
-
-    data.forEach(function (d) {
-        populationById[d.country] = {
-            population: d.population,
-            females: +d.females,
-            males: +d.males,
-            year: +d.year,
-            // language: d.language
-            languages: +d.languages,
-            speakers: d.speakers,
-            total: d.total
-
-        }
-    });
-    features.forEach(function (d) {
-        d.details = populationById[d.properties.name] ? populationById[d.properties.name] : {};
-    });
-
-    map.append("g")
-        .selectAll("path")
-        .data(features)
-        .enter().append("path")
-        .attr("name", function (d) {
-            return d.properties.name;
-        })
-        .attr("id", function (d) {
-            return d.id;
-        })
-        .attr("d", path)
-        .style("fill", function (d) {
-            return d.details && d.details.population ? color(d.details.population) : undefined;
-
-        })
-        .on('mouseover', function (d) {
-            d3.select(this)
-                .style("stroke", "red")
-                .style("stroke-width", 2)
-                .style("cursor", "pointer");
-
-            d3.select(".country")
-                .text(d.properties.name);
-
-            d3.select(".total")
-                .text(d.details && d.details.total && "Population: " + d.details.total || "¯\\_(ツ)_/¯");
-
-            d3.select(".languages")
-                .text(d.details && d.details.languages && "# Langs: " + d.details.languages || "¯\\_(ツ)_/¯");
-
-            d3.select(".speakers")
-                .text(d.details && d.details.speakers && "Speakers: " + d.details.speakers || "¯\\_(ツ)_/¯");
-                // .text("Speakers: " + d.details.total || "¯\\_(ツ)_/¯");
-
-            d3.select('.details')
-
-                .style('visibility', "visible")
-        })
-        .on('mouseout', function (d) {
-            d3.select(this)
-                .style("stroke", null)
-                .style("stroke-width", 0.25);
-
-            d3.select('.details')
-                .style('visibility', "hidden");
+            }
         });
 
-}
+    }
+};
+xhr.send();
+
+
+var xhr1 = new XMLHttpRequest();
+//xhr1.open('GET', "src/data/50m.json");
+xhr1.open('GET', "src/data/world.geo.json");
+xhr1.setRequestHeader('Content-Type', 'application/json');
+xhr1.onload = function () {
+    if (xhr1.status === 200) {
+        var world = JSON.parse(xhr1.responseText);
+        //var worldGeoJSON = topojson.feature(world, world.objects.countries).features;
+        var geoJsonLayer = L.geoJson(world, {
+            style: function (feature) {
+                var country = feature.properties.name;
+                total = populationById[country] && populationById[country]["population"];
+
+                return {
+                    fillColor: (total ? getColor(total) : getColor(0)),
+                    fillOpacity: 0.8,
+                    weight: 1,
+                    color: 'grey'
+                };
+            },
+            onEachFeature: function (feature, layer) {
+                layer.on({
+                    'mousemove': function (e) {
+                        //Handle mousemove event
+                        e.target.setStyle({
+                            weight: 2
+                        });
+
+                        details = feature.properties;
+                        country = details.name;
+                        document.getElementsByClassName("country")[0].innerHTML = country;
+                        document.getElementsByClassName("population")[0].innerHTML = "Population: " + (populationById[country] ? populationById[country].total : "¯\\_(ツ)_/¯");
+                        document.getElementsByClassName("languages")[0].innerHTML = "Endangered Langs: " + (populationById[country].languages ? populationById[country].languages : "¯\\_(ツ)_/¯");
+                        document.getElementsByClassName("speakers")[0].innerHTML = "Speakers: " + (populationById[country].speakers ? populationById[country].speakers : "¯\\_(ツ)_/¯");
+
+                        document.getElementsByClassName("details")[0].style.visibility = 'visible';
+                    },
+                    'mouseout': function (e) {
+                        //Handle mouseout event
+                        e.target.setStyle({
+                            weight: 1
+                        });
+                    },
+                    'click': function (e) {
+                        //Handle click event
+                    }
+                });
+            }
+        }).addTo(map);
+
+    }
+};
+xhr1.send();

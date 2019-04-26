@@ -2,7 +2,9 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
     <title></title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.2.0/leaflet.css">
     <style>
         * {
             font-family: "Palatino Linotype", "Book Antiqua", Palatino, serif
@@ -11,17 +13,12 @@
             color: #444444;
             font-weight: 100;
         }
-        h1 {
-          font-size: 48px;
-        }
         body {
             background-color: #71808F;
             margin: 0px;
         }
-        path {
-            stroke: white;
-            stroke-width: 0.25px;
-            fill: #808080;
+        .center {
+            text-align: center;
         }
         .details {
             top: 0px;
@@ -33,25 +30,33 @@
             position: absolute;
             background-color: aliceblue;
             font-size: 50px;
+            z-index: 999;
         }
-        .center {
-            text-align: center;
+        html, body, #map {
+            height: 100%;
         }
+        body {
+            padding: 0;
+            margin: 0;
+        }
+
     </style>
 </head>
 <body>
 
-<h1 class="center">Endangered Languages of the World</h1>
+<h1 class="center">Endangered Languages of the World </h1>
+<div id="map"></div>
 
 <div class="details">
     <h2 class="country"></h2>
-    <p class="total"></p>
+    <p class="population"></p>
     <p class="languages"></p>
     <p class="speakers"></p>
 
 </div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/4.11.0/d3.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/topojson/3.0.2/topojson.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.2.0/leaflet.js"></script>
 <script src="src/js/main.js"></script>
 </body>
 </html>
