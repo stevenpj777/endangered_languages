@@ -95,7 +95,7 @@ xhr1.onload = function () {
                         document.getElementsByClassName("country")[0].innerHTML = country;
                         document.getElementsByClassName("population")[0].innerHTML = "Population: " + (populationById[country] ? populationById[country].total : "¯\\_(ツ)_/¯");
                         document.getElementsByClassName("languages")[0].innerHTML = "Endangered Langs: " + (populationById[country].languages ? populationById[country].languages : "¯\\_(ツ)_/¯");
-                        document.getElementsByClassName("speakers")[0].innerHTML = "Speakers: " + (populationById[country].speakers ? populationById[country].speakers : "¯\\_(ツ)_/¯");
+                        document.getElementsByClassName("speakers")[0].innerHTML = "Endangered Speakers: " + (populationById[country].speakers ? populationById[country].speakers : "¯\\_(ツ)_/¯");
 
                         document.getElementsByClassName("details")[0].style.visibility = 'visible';
                     },
